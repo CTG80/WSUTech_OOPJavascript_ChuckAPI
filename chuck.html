@@ -1,0 +1,38 @@
+<html>
+<head>
+    <title>Chuck Norris Joke API Project</title>
+</head>
+<body>
+    <h1>Chuck Norris Jokes</h1>
+    <div id="jokeContainer">
+        <p id="jokeText"></p>
+    </div>
+    <button id="getJokeButton">Get Joke</button>
+    <button id="newJokeButton" style="display: none;">New Joke</button>
+
+    <script>
+        const jokeText = document.getElementById('jokeText');
+        const getJokeButton = document.getElementById('getJokeButton');
+        const newJokeButton = document.getElementById('newJokeButton');
+
+        getJokeButton.addEventListener('click', getJoke);
+        newJokeButton.addEventListener('click', getJoke);
+
+        function getJoke() {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', 'https://api.chucknorris.io/jokes/random', true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    const joke = JSON.parse(xhr.responseText);
+                    jokeText.textContent = joke.value;
+                    getJokeButton.style.display = 'none';
+                    newJokeButton.style.display = 'inline-block';
+                } else {
+                    console.error('Request failed.');
+                }
+            };
+            xhr.send();
+        }
+    </script>
+</body>
+</html>
